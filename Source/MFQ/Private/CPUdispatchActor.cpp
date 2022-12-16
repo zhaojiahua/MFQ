@@ -96,7 +96,7 @@ void ACPUdispatchActor::Tick(float DeltaTime)
 		}
 	}
 	/// /// ///四级队列 ///
-	else {	//第一 二 三级队列全部空了才开始执行第几四队列(如果第四级队列执行一遍后仍有未完成的进程就将该进程放置带此队尾,在第一二三级队列仍然为空的情况重复执行此队列的进程,知道清空)
+	else if (queueActor4->progressArray.Num() > 0) {	//第一 二 三级队列全部空了才开始执行第几四队列(如果第四级队列执行一遍后仍有未完成的进程就将该进程放置带此队尾,在第一二三级队列仍然为空的情况重复执行此队列的进程,知道清空)
 		auto iPro = queueActor4->progressArray[0];	//同样取出首位置元素
 		iPro->ExecutePro(DeltaTime);
 		if (mIncreaseTimeUnit >= 1) {	//一个时间片执行结束

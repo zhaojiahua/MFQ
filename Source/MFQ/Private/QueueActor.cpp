@@ -29,14 +29,14 @@ void AQueueActor::Tick(float DeltaTime)
 void AQueueActor::AddPro(AProgressActor* inPro)
 {
 	GEngine->AddOnScreenDebugMessage(0, 5.0f, inPro->proColor, inPro->GetProcName() + FString(TEXT(" add to ")) + FString::FromInt(queueLevel));
-	progressArray.Add(inPro);
 	int32 i = 0;
 	for (auto iPro : progressArray) {
 		i += (iPro->mTaskLife - iPro->mPassAge);
 	}
 	FVector3d queueLocation = GetActorLocation();
-	int32 posY = i + (inPro->mTaskLife - inPro->mPassAge);
-	inPro->SetActorLocation(FVector3d(queueLocation.X, posY, queueLocation.Z));
+	queueLocation.Y -= 100 * (i + (inPro->mTaskLife - inPro->mPassAge));
+	inPro->SetActorLocation(queueLocation);
+	progressArray.Add(inPro);
 }
 
 void AQueueActor::RemovePro(AProgressActor* inPro)
@@ -47,6 +47,7 @@ void AQueueActor::RemovePro(AProgressActor* inPro)
 		for (int32 i = proIndex; i < progressArray.Num(); i++) {
 			FVector3d temploc = progressArray[i]->GetActorLocation();
 			temploc.Y -= inPro->queueAge;
+			temploc.Y *= 100;
 			progressArray[i]->SetActorLocation(temploc);
 		}
 	}
@@ -60,6 +61,7 @@ void AQueueActor::KillPro(AProgressActor* inPro)
 		for (int32 i = proIndex; i < progressArray.Num(); i++) {
 			FVector3d temploc = progressArray[i]->GetActorLocation();
 			temploc.Y -= inPro->queueAge;
+			temploc.Y *= 100;
 			progressArray[i]->SetActorLocation(temploc);
 		}
 	}
