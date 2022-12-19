@@ -1,7 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ProgressActor.h"
+#include "Sound/SoundCue.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default value
 AProgressActor::AProgressActor()
@@ -42,6 +41,7 @@ void AProgressActor::Tick(float DeltaTime)
 void AProgressActor::KillSelf()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, proColor, GetProcName() + FString(TEXT(" has been Killed")), true, FVector2D(2.0f, 2.0f));
+	UGameplayStatics::PlaySound2D(GetWorld(), soundForKill);
 	Destroy();
 }
 

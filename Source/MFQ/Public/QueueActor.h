@@ -26,7 +26,6 @@ public:
 		int32 queueLevel = 1;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, category = "zjhAddAttrs")
 		int32 timeSlice = 1;
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

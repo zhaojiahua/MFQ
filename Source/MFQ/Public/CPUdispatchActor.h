@@ -26,11 +26,15 @@ public:
 		class AQueueActor* queueActor3;
 	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
 		class AQueueActor* queueActor4;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
-		float runSpeed = 1;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		class USoundCue* soundForTick;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		class USoundCue* soundForChange;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, category = "zjhAddAttrs")
+		float runSpeed = 1.0f;
 	float mIncreaseTimeUnit = 0.0f;	//用来记录时间单位,每当它达到1时就被重新值成0(从而决定了整个程序的运行速度)(在生成进程对象的时候要重置mIncreaseTimeUnit=0)
 	int32 queue_flag = 1;	//用来切换四个队列的执行
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
+	UPROPERTY(BlueprintReadWrite, category = "zjhAddAttrs")
 		bool timeKeeping = false;
 
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")

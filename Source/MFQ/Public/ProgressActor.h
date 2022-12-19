@@ -32,6 +32,8 @@ public:
 	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
 		UMaterialInterface* matInterface;
 	UMaterialInstanceDynamic* dynamicMat;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		class USoundCue* soundForKill;
 	int32 mPriority = 7;	//线程优先级默认给7(生成线程的时候随机给一个1-7的值)
 
 	//线程的运行总时长(默认给4个单位的时间片)
