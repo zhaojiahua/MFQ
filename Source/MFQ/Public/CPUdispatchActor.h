@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -30,9 +28,16 @@ public:
 		class AQueueActor* queueActor4;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
 		float runSpeed = 1;
+	float mIncreaseTimeUnit = 0.0f;	//用来记录时间单位,每当它达到1时就被重新值成0(从而决定了整个程序的运行速度)(在生成进程对象的时候要重置mIncreaseTimeUnit=0)
+	int32 queue_flag = 1;	//用来切换四个队列的执行
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
+		bool timeKeeping = false;
+
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void SetTimeKeeping();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	float mIncreaseTimeUnit = 0.0f;	//用来记录时间单位,每当它达到1时就被重新值成0(从而决定了整个程序的运行速度)
 };

@@ -48,9 +48,10 @@ public:
 		FColor proColor;
 	UFUNCTION(BlueprintCallable,category="zjhAddFuns")
 		FString GetProcName();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void SetInitialize();
 	bool beginClock = false;
 	void ExecutePro(float intime);
-	void StopPro();
 	void KillSelf();
 private:
 	float mIncreaseTimer = 0.0f;

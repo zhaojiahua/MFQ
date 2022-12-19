@@ -28,13 +28,18 @@ void AQueueActor::Tick(float DeltaTime)
 
 void AQueueActor::AddPro(AProgressActor* inPro)
 {
-	GEngine->AddOnScreenDebugMessage(0, 5.0f, inPro->proColor, inPro->GetProcName() + FString(TEXT(" add to ")) + FString::FromInt(queueLevel));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, inPro->proColor, inPro->GetProcName() + FString(TEXT(" add to ")) + FString::FromInt(queueLevel));
+	inPro->queueAge = (inPro->mTaskLife - inPro->mPassAge);//发生队列的转移时queueAge一定要更新(queueAge用于计算队列进程移位)(表示它刚进此级队列时的所剩寿命长度)
+	inPro->queue2Timer = 0;
+	inPro->queue3Timer = 0;
+	inPro->queue4Timer = 0;
 	int32 i = 0;
 	for (auto iPro : progressArray) {
-		i += (iPro->mTaskLife - iPro->mPassAge);
+		i += iPro->queueAge;
 	}
 	FVector3d queueLocation = GetActorLocation();
-	queueLocation.Y -= 100 * (i + (inPro->mTaskLife - inPro->mPassAge));
+	queueLocation.Y -= 100 * (i + inPro->queueAge);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, inPro->proColor, FString(TEXT("i ")) + FString::FromInt(i) + FString(TEXT(" queueLocation.Y ")) + FString::SanitizeFloat(queueLocation.Y));
 	inPro->SetActorLocation(queueLocation);
 	progressArray.Add(inPro);
 }
@@ -46,8 +51,7 @@ void AQueueActor::RemovePro(AProgressActor* inPro)
 	if (proIndex != progressArray.Num() - 1) {
 		for (int32 i = proIndex; i < progressArray.Num(); i++) {
 			FVector3d temploc = progressArray[i]->GetActorLocation();
-			temploc.Y -= inPro->queueAge;
-			temploc.Y *= 100;
+			temploc.Y += 100*inPro->queueAge;
 			progressArray[i]->SetActorLocation(temploc);
 		}
 	}
@@ -60,8 +64,7 @@ void AQueueActor::KillPro(AProgressActor* inPro)
 	if (proIndex != progressArray.Num() - 1) {
 		for (int32 i = proIndex; i < progressArray.Num(); i++) {
 			FVector3d temploc = progressArray[i]->GetActorLocation();
-			temploc.Y -= inPro->queueAge;
-			temploc.Y *= 100;
+			temploc.Y += 100*inPro->queueAge;
 			progressArray[i]->SetActorLocation(temploc);
 		}
 	}
